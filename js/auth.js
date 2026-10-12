@@ -30,7 +30,7 @@ export class AuthService {
             // Pre-hashed 'password123' (SHA-256)
             passwordHash: 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f',
             major: 'Computer Science',
-            avatarColor: '#8B5A2B',
+            avatarColor: '#106EBE',
             createdAt: Date.now()
           }
         ];
@@ -99,7 +99,7 @@ export class AuthService {
     }
 
     const passwordHash = await this.hashPassword(password);
-    const avatarColors = ['#8B5A2B', '#9C6644', '#B07D62', '#6B4226', '#7F4F24', '#A6641A'];
+    const avatarColors = ['#106EBE', '#0078D4', '#005A9E', '#004578', '#0E7090', '#058A67', '#0F9D70'];
     const avatarColor = avatarColors[Math.floor(Math.random() * avatarColors.length)];
 
     const newUser = {

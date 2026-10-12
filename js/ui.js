@@ -188,7 +188,7 @@ export class UIManager {
       try {
         new Notification(title, {
           body,
-          icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238B5A2B"><circle cx="12" cy="12" r="10"/></svg>'
+          icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23106EBE"><circle cx="12" cy="12" r="10"/></svg>'
         });
       } catch (e) {
         console.warn('Could not trigger notification', e);
