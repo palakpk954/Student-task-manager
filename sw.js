@@ -2,7 +2,7 @@
  * STask - Offline Service Worker (PWA)
  */
 
-const CACHE_NAME = 'stask-v4.0';
+const CACHE_NAME = 'stask-v4.2';
 const STATIC_ASSETS = [
   './',
   './index.html',
