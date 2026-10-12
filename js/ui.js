@@ -283,9 +283,11 @@ export class UIManager {
     const isWelcome = this.state.activeView === 'welcome';
     const sidebar = document.getElementById('app-sidebar');
     const metricsSection = document.querySelector('.metrics-section');
+    const mainWrapper = document.getElementById('main-content');
 
     if (sidebar) sidebar.style.display = isWelcome ? 'none' : '';
     if (metricsSection) metricsSection.style.display = isWelcome ? 'none' : '';
+    if (mainWrapper) mainWrapper.classList.toggle('welcome-mode', isWelcome);
 
     if (this.viewWelcomeEl) this.viewWelcomeEl.classList.toggle('hidden', !isWelcome);
     if (this.viewListEl) this.viewListEl.classList.toggle('hidden', this.state.activeView !== 'list');

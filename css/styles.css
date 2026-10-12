@@ -1973,6 +1973,12 @@ kbd {
 /* --------------------------------------------------------------------------
    16. Minimalist Welcome Page (1st Page)
    -------------------------------------------------------------------------- */
+.main-wrapper.welcome-mode {
+  display: block;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
 .welcome-view-panel {
   display: flex;
   flex-direction: column;
