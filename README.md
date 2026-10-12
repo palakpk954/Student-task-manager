@@ -1,96 +1,89 @@
-# 🎓 Student Task Manager
+# 🎓 Student Task Manager — Advanced Academic Suite
 
-A fast, distraction-free, and responsive web application designed for students to capture, organize, and track academic coursework, exams, and milestones in one place.
+An all-in-one, distraction-free, and responsive web application engineered for students to capture, organize, and excel in their coursework. Built with vanilla HTML5, CSS3 with a warm coffee/mocha design system, ES6 JavaScript modules, and localStorage persistence.
 
-Built with semantic HTML5, modern vanilla CSS with warm mocha/brown aesthetics, ES6 JavaScript modules, and localStorage persistence.
-
-![Student Task Manager](https://img.shields.io/badge/Status-Complete-success?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Complete-success?style=flat-square)
+![PWA](https://img.shields.io/badge/PWA-Installable%20%26%20Offline-blueviolet?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
-![Stack](https://img.shields.io/badge/Stack-HTML5%20%7C%20CSS3%20%7C%20Vanilla%20JS-8B5A2B?style=flat-square)
+![Design](https://img.shields.io/badge/Design-Warm%20Mocha%20Palette-8B5A2B?style=flat-square)
 
 ---
 
-## ✨ Features
+## 🚀 Complete Roadmap Implementation (Phases 1 – 6)
 
-- **⚡ Fast Task Capture (< 15 seconds)**: Quickly add tasks with title, due date, priority (Low, Medium, High), and optional notes.
-- **🎨 Warm Mocha & Coffee Aesthetic**: Beautiful earthy brown color palette with dark/light mode toggle following system settings or user preference.
-- **🔄 Instant Filtering & Search**:
-  - Filter by status (**All**, **Pending**, **Completed**).
-  - Filter by priority (**All**, **High**, **Medium**, **Low**).
-  - Combined multi-criteria filtering.
-  - Real-time search across titles and descriptions.
-- **📊 Live Header Statistics**: Real-time counter badges for **Total**, **Pending**, **Completed**, and **Overdue** tasks.
-- **⏰ Smart Deadline Indicators**: Automatic highlights for **Overdue** items and tasks **Due Today**.
-- **↩️ 5-Second Undo Toast**: Mis-tapped a checkbox or deleted a task by mistake? Recover it instantly with the floating Undo toast.
-- **💾 Local Persistence**: Zero-setup storage via `localStorage` keeping your tasks saved across refreshes and browser restarts.
-- **📱 Fully Responsive**:
-  - **Desktop (>1024px)**: Dual-pane layout with filter sidebar and task feed.
-  - **Tablet (640px–1024px)**: Inline horizontal filter strip with centered modals.
-  - **Mobile (<640px)**: Bottom floating action button (FAB), bottom modal sheets, and ≥44px touch targets.
-- **♿ WCAG 2.1 AA Accessibility**: Visible focus states, keyboard shortcuts (`Esc` to dismiss dialogs, `Enter` to submit), and ARIA attributes.
+### Phase 1: Core Foundation (Must Have)
+1. **⚡ Fast Task Capture**: Add tasks in under 15 seconds with title, description, due date, and priority.
+2. **📋 Task Feed**: Clear, responsive task list view.
+3. **✏️ Live Editing**: Edit any field in real-time.
+4. **🗑️ Safe Deletion**: Non-native accessible confirmation dialog.
+5. **✅ Completion Toggle**: Checkbox with custom spring micro-animation & strikethrough.
+6. **🔍 Status Filters**: All, Pending, Completed.
+7. **🎯 Priority Filters**: All, High (terracotta), Medium (amber), Low (sage green).
+8. **🔀 Multi-Criteria Filtering**: Combine status, priority, course, and date filters simultaneously.
+9. **💾 Local Persistence**: Browser `localStorage` abstraction surviving restarts.
+10. **🛡️ Form Validation**: Required title and due date validation with inline alerts.
+11. **📱 Responsive Layout**: Seamless performance across Mobile (<640px), Tablet (640–1024px), and Desktop (>1024px).
+
+### Phase 2: Polish (Should Have)
+12. **⏰ Deadline Highlights**: Distinct flags for **Overdue** tasks and **Due Today** labels.
+13. **↕️ Flexible Sorting**: Sort by Due Date (Soonest/Furthest), Priority, Estimated Time, or Course Name.
+14. **🎨 Empty States**: Onboarding guidance state and no-results search/filter empty states.
+15. **🌓 Dark/Light Modes**: Warm linen/cream in light mode and deep roasted mocha in dark mode.
+16. **📊 Header Statistics**: Real-time counters for Total, Pending, Completed, and Overdue tasks.
+
+### Phase 3: Quick Wins
+17. **🔎 Instant Search**: Live debounce search across task titles, descriptions, and courses.
+18. **↩️ 5-Second Undo Toast**: Floating notification permitting 1-click recovery for completions and deletions.
+19. **🏷️ Course & Subject Tags**: Categorize tasks by course (e.g., `CS 301`, `MATH 240`) with dynamic filter pills.
+20. **⌨️ Keyboard Shortcuts**:
+    - `N`: Quick-add new task
+    - `/`: Focus search bar
+    - `Esc`: Close any open modal
+    - `Enter`: Submit active form
+    - `?`: View shortcuts cheat sheet
+21. **📈 Progress Bar**: Live completion meter (`X of Y tasks completed (Z%)`) with dynamic gradient fill.
+
+### Phase 4: Student-Specific Features
+22. **📅 "Due Soon" Quick Filters**: 1-click filtering for `Due Today`, `Tomorrow`, and `This Week`.
+23. **🏷️ Task Types**: Badges with distinct icons: 📝 *Assignment*, 🎯 *Exam*, 📖 *Reading*, 🚀 *Project*, and ⚡ *Quiz*.
+24. **⏱️ Time Estimates**: Estimated study duration per task (e.g., `45m`, `120m`).
+25. **☑️ Subtasks & Checklists**: Interactive step-by-step checklist inside tasks with live counter.
+26. **🔥 Study Streak Tracker**: Daily study streak counter to motivate consistency.
+27. **📊 Weekly Activity Chart**: Interactive Mon–Sun bar chart comparing completed vs pending tasks.
+
+### Phase 5: Data & Reliability
+28. **💾 JSON Export & Import**: Backup your tasks to `.json` and restore anytime.
+29. **📱 PWA & Offline Support**: Web App Manifest (`manifest.json`) and service worker (`sw.js`) for full offline availability and mobile home screen installation.
+30. **↕️ Drag-and-Drop Reordering**: Rearrange task priority intuitively with HTML5 drag-and-drop.
+
+### Phase 6: Stand-Out Extras
+31. **🗓️ Interactive Calendar View**: Full month grid displaying task chips, day navigation, and click-to-add on any date.
+32. **🔔 Browser Notifications**: Desktop Notification API alerts for tasks due today.
+33. **🍅 Built-in Pomodoro Timer**: Floating focus timer (25m Focus / 5m Break / 15m Long Break) with Web Audio chime, linked directly to individual tasks.
+34. **📅 Google Calendar Sync & .ics Export**:
+    - 1-click "Add to Google Calendar" button on every task.
+    - Export all tasks to `.ics` format for Apple Calendar, Outlook, and Google Calendar.
+35. **🤖 AI Syllabus Helper**: Paste syllabus text or course announcements to automatically parse course codes, dates, and exam/assignment titles with 1-click bulk import.
 
 ---
 
-## 🚀 Getting Started
+## 🛠️ Tech Stack & Architecture
 
-No build tools, bundlers, or package installations required!
+- **Markup**: Semantic HTML5 with ARIA landmark roles and accessibility compliance (WCAG 2.1 AA).
+- **Styling**: Vanilla CSS3 using custom properties, Flexbox/Grid, and fluid animations.
+- **Logic**: ES6+ JavaScript modules (`storage.js`, `state.js`, `ui.js`, `app.js`).
+- **Offline**: PWA Manifest & Service Worker Cache.
 
-### Option 1: Direct Local File
-Open `index.html` in any modern web browser:
-```bash
-# Windows
-start index.html
-```
+---
 
-### Option 2: Local HTTP Server (Recommended for ES Modules)
+## 🏃 Running Locally
+
 ```bash
 # Using Python
 python -m http.server 3000
 
-# Using Node.js npx
+# Using Node.js
 npx serve .
 ```
-Then navigate to `http://localhost:3000` in your browser.
 
----
-
-## 📁 Project Structure
-
-```text
-Student-task-manager/
-├── index.html                                        # Semantic markup & accessible modal containers
-├── css/
-│   └── styles.css                                    # Brownish design tokens, keyframe animations, & responsive styles
-├── js/
-│   ├── app.js                                        # Main entry point & initialization
-│   ├── storage.js                                    # Data access layer & localStorage repository
-│   ├── state.js                                      # Reactive state, sorting, filtering, & undo engine
-│   └── ui.js                                         # DOM rendering, accessible modals, & toast notifications
-├── Student Task Manager — Product Requirements Document.md # Full product requirements specification
-├── .gitignore
-└── README.md
-```
-
----
-
-## 🛠️ Data Model
-
-```typescript
-interface Task {
-  id: string;               // Unique ID
-  title: string;            // 1–100 characters (trimmed)
-  description?: string;     // Up to 500 characters
-  dueDate: string;          // YYYY-MM-DD
-  priority: 'Low' | 'Medium' | 'High'; // Default: 'Medium'
-  completed: boolean;       // Default: false
-  createdAt: number;        // Timestamp (ms)
-  updatedAt: number;        // Timestamp (ms)
-  completedAt?: number | null;
-}
-```
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
+Open `http://localhost:3000` in your web browser.
