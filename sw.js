@@ -2,12 +2,13 @@
  * Student Task Manager - Offline Service Worker (PWA)
  */
 
-const CACHE_NAME = 'student-task-manager-v2';
+const CACHE_NAME = 'student-task-manager-v2.1';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './css/styles.css',
   './js/app.js',
+  './js/auth.js',
   './js/storage.js',
   './js/state.js',
   './js/ui.js',

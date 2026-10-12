@@ -6,6 +6,7 @@
  */
 
 import { TaskRepository } from './storage.js';
+import { AuthService } from './auth.js';
 
 export class UIManager {
   constructor(state) {
@@ -84,6 +85,29 @@ export class UIManager {
 
     // Card details expansion tracking
     this.expandedCards = new Set();
+
+    // Auth & User Profile Elements
+    this.authModal = document.getElementById('auth-modal');
+    this.loginForm = document.getElementById('login-form');
+    this.signupForm = document.getElementById('signup-form');
+    this.tabLoginBtn = document.getElementById('tab-login-btn');
+    this.tabSignupBtn = document.getElementById('tab-signup-btn');
+    this.btnOpenLogin = document.getElementById('btn-open-login');
+    this.btnOpenSignup = document.getElementById('btn-open-signup');
+    this.btnDemoLogin = document.getElementById('btn-demo-login');
+    this.userProfileMenu = document.getElementById('user-profile-menu');
+    this.authButtonsGroup = document.getElementById('auth-buttons-group');
+    this.userProfileBtn = document.getElementById('user-profile-btn');
+    this.userDropdownCard = document.getElementById('user-dropdown-card');
+    this.headerUserAvatar = document.getElementById('header-user-avatar');
+    this.dropdownUserAvatar = document.getElementById('dropdown-user-avatar');
+    this.dropdownUserName = document.getElementById('dropdown-user-name');
+    this.dropdownUserEmail = document.getElementById('dropdown-user-email');
+    this.dropdownUserMajor = document.getElementById('dropdown-user-major');
+    this.btnSwitchAccount = document.getElementById('btn-switch-account');
+    this.btnUserLogout = document.getElementById('btn-user-logout');
+    this.loginErrorEl = document.getElementById('login-error');
+    this.signupErrorEl = document.getElementById('signup-error');
   }
 
   init() {
@@ -246,6 +270,7 @@ export class UIManager {
   // --- Master Render Method ---
 
   render() {
+    this.renderUserAuth();
     this.renderHeaderAndMetrics();
     this.renderCourseFilters();
 
@@ -1502,5 +1527,166 @@ export class UIManager {
         }
       });
     });
+
+    // --- Authentication Event Wiring ---
+    if (this.tabLoginBtn) {
+      this.tabLoginBtn.addEventListener('click', () => this.switchAuthTab('login'));
+    }
+    if (this.tabSignupBtn) {
+      this.tabSignupBtn.addEventListener('click', () => this.switchAuthTab('signup'));
+    }
+    if (this.btnOpenLogin) {
+      this.btnOpenLogin.addEventListener('click', () => this.openAuthModal('login'));
+    }
+    if (this.btnOpenSignup) {
+      this.btnOpenSignup.addEventListener('click', () => this.openAuthModal('signup'));
+    }
+    if (this.btnSwitchAccount) {
+      this.btnSwitchAccount.addEventListener('click', () => {
+        if (this.userDropdownCard) this.userDropdownCard.classList.add('hidden');
+        this.openAuthModal('login');
+      });
+    }
+
+    if (this.userProfileBtn) {
+      this.userProfileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (this.userDropdownCard) {
+          this.userDropdownCard.classList.toggle('hidden');
+        }
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('#user-auth-widget') && this.userDropdownCard) {
+        this.userDropdownCard.classList.add('hidden');
+      }
+    });
+
+    // Password visibility toggle
+    document.querySelectorAll('.btn-toggle-password').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        if (input) {
+          if (input.type === 'password') {
+            input.type = 'text';
+            btn.textContent = '🙈';
+          } else {
+            input.type = 'password';
+            btn.textContent = '👁️';
+          }
+        }
+      });
+    });
+
+    // Login Form Submit
+    if (this.loginForm) {
+      this.loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        if (this.loginErrorEl) this.loginErrorEl.textContent = '';
+
+        try {
+          const user = await AuthService.login({ email, password });
+          this.closeModal(this.authModal);
+          this.showToast(`Welcome back, ${user.name}! 🎓`, null, 3500);
+        } catch (err) {
+          if (this.loginErrorEl) this.loginErrorEl.textContent = err.message;
+        }
+      });
+    }
+
+    // Sign Up Form Submit
+    if (this.signupForm) {
+      this.signupForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('signup-name').value.trim();
+        const email = document.getElementById('signup-email').value.trim();
+        const major = document.getElementById('signup-major').value.trim();
+        const password = document.getElementById('signup-password').value;
+        if (this.signupErrorEl) this.signupErrorEl.textContent = '';
+
+        try {
+          const user = await AuthService.signUp({ name, email, password, major });
+          this.closeModal(this.authModal);
+          this.showToast(`Account created! Welcome, ${user.name} 🎉`, null, 3500);
+        } catch (err) {
+          if (this.signupErrorEl) this.signupErrorEl.textContent = err.message;
+        }
+      });
+    }
+
+    // Demo Login button
+    if (this.btnDemoLogin) {
+      this.btnDemoLogin.addEventListener('click', () => {
+        const user = AuthService.loginDemo();
+        if (user) {
+          this.closeModal(this.authModal);
+          this.showToast(`Logged in as demo student (${user.name})! 🎓`, null, 3500);
+        }
+      });
+    }
+
+    // Logout button
+    if (this.btnUserLogout) {
+      this.btnUserLogout.addEventListener('click', () => {
+        AuthService.logout();
+        if (this.userDropdownCard) this.userDropdownCard.classList.add('hidden');
+        this.showToast('Signed out of student account.', null, 3000);
+      });
+    }
+
+    // Listen for auth state changes
+    window.addEventListener('app:auth-changed', () => {
+      this.renderUserAuth();
+      this.render();
+    });
+  }
+
+  // --- User Auth Render & Tabs Helper ---
+
+  renderUserAuth() {
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      if (this.userProfileMenu) this.userProfileMenu.classList.remove('hidden');
+      if (this.authButtonsGroup) this.authButtonsGroup.classList.add('hidden');
+
+      const names = user.name.trim().split(/\s+/);
+      const initials = names.length > 1
+        ? (names[0][0] + names[names.length - 1][0]).toUpperCase()
+        : names[0].slice(0, 2).toUpperCase();
+
+      if (this.headerUserAvatar) this.headerUserAvatar.textContent = initials;
+      if (this.dropdownUserAvatar) this.dropdownUserAvatar.textContent = initials;
+      if (this.dropdownUserName) this.dropdownUserName.textContent = user.name;
+      if (this.dropdownUserEmail) this.dropdownUserEmail.textContent = user.email;
+      if (this.dropdownUserMajor) this.dropdownUserMajor.textContent = user.major || 'Student';
+    } else {
+      if (this.userProfileMenu) this.userProfileMenu.classList.add('hidden');
+      if (this.authButtonsGroup) this.authButtonsGroup.classList.remove('hidden');
+    }
+  }
+
+  switchAuthTab(tab) {
+    if (tab === 'login') {
+      if (this.tabLoginBtn) this.tabLoginBtn.classList.add('active');
+      if (this.tabSignupBtn) this.tabSignupBtn.classList.remove('active');
+      if (this.loginForm) this.loginForm.classList.remove('hidden');
+      if (this.signupForm) this.signupForm.classList.add('hidden');
+    } else {
+      if (this.tabSignupBtn) this.tabSignupBtn.classList.add('active');
+      if (this.tabLoginBtn) this.tabLoginBtn.classList.remove('active');
+      if (this.signupForm) this.signupForm.classList.remove('hidden');
+      if (this.loginForm) this.loginForm.classList.add('hidden');
+    }
+    if (this.loginErrorEl) this.loginErrorEl.textContent = '';
+    if (this.signupErrorEl) this.signupErrorEl.textContent = '';
+  }
+
+  openAuthModal(tab = 'login') {
+    this.switchAuthTab(tab);
+    if (this.authModal) this.openModal(this.authModal);
   }
 }

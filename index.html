@@ -69,6 +69,42 @@
           <svg class="icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
 
+        <!-- User Profile / Auth Area -->
+        <div class="user-auth-widget" id="user-auth-widget">
+          <!-- Logged in profile menu -->
+          <div class="user-profile-menu hidden" id="user-profile-menu">
+            <button type="button" class="user-avatar-btn" id="user-profile-btn" aria-haspopup="true" aria-expanded="false" title="Student Profile">
+              <span class="avatar-initials" id="header-user-avatar">M</span>
+            </button>
+            <div class="user-dropdown-card hidden" id="user-dropdown-card">
+              <div class="user-dropdown-header">
+                <div class="dropdown-avatar" id="dropdown-user-avatar">M</div>
+                <div class="dropdown-info">
+                  <span class="dropdown-name" id="dropdown-user-name">Maya Lin</span>
+                  <span class="dropdown-email" id="dropdown-user-email">maya@university.edu</span>
+                  <span class="badge badge-course" id="dropdown-user-major" style="margin-top: 4px; display: inline-flex;">Computer Science</span>
+                </div>
+              </div>
+              <div class="user-dropdown-actions">
+                <button type="button" class="dropdown-item-btn" id="btn-switch-account">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7.5" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                  <span>Switch Account / Login</span>
+                </button>
+                <button type="button" class="dropdown-item-btn text-danger" id="btn-user-logout">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                  <span>Sign Out</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Logged out button group -->
+          <div class="auth-buttons-group hidden" id="auth-buttons-group">
+            <button type="button" class="btn-secondary btn-sm" id="btn-open-login">Sign In</button>
+            <button type="button" class="btn-primary btn-sm" id="btn-open-signup">Sign Up</button>
+          </div>
+        </div>
+
         <!-- Add Task Button -->
         <button type="button" class="btn-primary header-add-btn" data-action="open-add-task" id="btn-add-task-header">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -549,6 +585,88 @@ Reading Chapter 9: Nov 10"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn-primary" data-action="close-modal">Got it</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authentication Modal (Sign In & Sign Up) -->
+  <div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" aria-hidden="true">
+    <div class="modal-panel" style="max-width: 480px;" role="document">
+      <div class="modal-header">
+        <h2 class="modal-title" id="auth-modal-title">Student Portal</h2>
+        <button type="button" class="btn-close-modal" data-action="close-modal" aria-label="Close dialog">✕</button>
+      </div>
+
+      <!-- Auth Tabs: Sign In / Create Account -->
+      <div class="auth-tabs-bar">
+        <button type="button" class="auth-tab-btn active" id="tab-login-btn">Sign In</button>
+        <button type="button" class="auth-tab-btn" id="tab-signup-btn">Create Account</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- LOGIN FORM -->
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-email" class="form-label label-required">Student Email</label>
+            <input type="email" id="login-email" class="form-input" placeholder="e.g. maya@university.edu" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="login-password" class="form-label label-required">Password</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-password" data-target="login-password" title="Show/Hide Password">👁️</button>
+            </div>
+            <div id="login-error" class="form-error" role="alert"></div>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 0.5rem;" id="btn-submit-login">
+            Sign In to My Tasks
+          </button>
+
+          <div class="auth-divider">
+            <span>or</span>
+          </div>
+
+          <button type="button" class="btn-secondary" style="width: 100%; font-size: 0.88rem;" id="btn-demo-login">
+            ⚡ Quick Demo Login (Maya Lin)
+          </button>
+        </form>
+
+        <!-- SIGN UP FORM -->
+        <form id="signup-form" class="hidden">
+          <div class="form-group">
+            <label for="signup-name" class="form-label label-required">Full Name</label>
+            <input type="text" id="signup-name" class="form-input" placeholder="e.g. Alex Johnson" required autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label for="signup-email" class="form-label label-required">Student Email</label>
+            <input type="email" id="signup-email" class="form-input" placeholder="e.g. alex@university.edu" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label for="signup-major" class="form-label">Major / Field of Study</label>
+            <input type="text" id="signup-major" class="form-input" placeholder="e.g. Mechanical Engineering, Biology">
+          </div>
+
+          <div class="form-group">
+            <label for="signup-password" class="form-label label-required">Password (min 6 characters)</label>
+            <div class="password-input-wrapper">
+              <input type="password" id="signup-password" class="form-input" placeholder="Create a secure password" minlength="6" required autocomplete="new-password">
+              <button type="button" class="btn-toggle-password" data-target="signup-password" title="Show/Hide Password">👁️</button>
+            </div>
+            <div id="signup-error" class="form-error" role="alert"></div>
+          </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%; margin-top: 0.5rem;" id="btn-submit-signup">
+            Create Student Account
+          </button>
+        </form>
+      </div>
+
+      <div class="modal-footer" style="justify-content: center; font-size: 0.82rem; color: var(--text-muted);">
+        <span>🔒 Secure client-side credentials & isolated local tasks</span>
       </div>
     </div>
   </div>

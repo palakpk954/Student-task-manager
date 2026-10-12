@@ -1,15 +1,27 @@
 /**
  * Student Task Manager - Storage Module (Data Access Layer)
- * Implements TaskRepository for localStorage persistence, PWA storage,
- * JSON Export/Import, iCal generation, and Streak tracking.
+ * Implements TaskRepository with per-user isolated task storage,
+ * PWA storage, JSON Export/Import, iCal generation, and Streak tracking.
  */
 
-const STORAGE_KEY = 'student_task_manager_tasks_v2';
+import { AuthService } from './auth.js';
+
+const BASE_STORAGE_KEY = 'student_task_manager_tasks_v2';
 const THEME_KEY = 'student_task_manager_theme_v2';
 const STREAK_KEY = 'student_task_manager_streak_v2';
 
-// Rich sample tasks showcasing courses, types, subtasks, time estimates
-const DEFAULT_SAMPLE_TASKS = () => {
+const getTaskStorageKey = () => {
+  const user = AuthService.getCurrentUser();
+  return user ? `${BASE_STORAGE_KEY}_${user.id}` : `${BASE_STORAGE_KEY}_guest`;
+};
+
+const getStreakStorageKey = () => {
+  const user = AuthService.getCurrentUser();
+  return user ? `${STREAK_KEY}_${user.id}` : `${STREAK_KEY}_guest`;
+};
+
+// Starter sample tasks for new student accounts
+const DEFAULT_SAMPLE_TASKS = (userName = 'Student') => {
   const today = new Date();
   const formatDate = (date) => {
     const y = date.getFullYear();
@@ -143,28 +155,21 @@ const DEFAULT_SAMPLE_TASKS = () => {
 export class TaskRepository {
   static getTasks() {
     try {
-      const data = localStorage.getItem(STORAGE_KEY);
+      const key = getTaskStorageKey();
+      let data = localStorage.getItem(key);
+
+      // If user specific key not found, check legacy v2 key to migrate seamlessly
       if (!data) {
-        // Check v1 storage to migrate if available
-        const v1Data = localStorage.getItem('student_task_manager_tasks_v1');
-        let initialTasks;
-        if (v1Data) {
-          try {
-            initialTasks = JSON.parse(v1Data);
-            // Upgrade items to v2 fields
-            initialTasks = initialTasks.map(t => ({
-              ...t,
-              course: t.course || 'General',
-              taskType: t.taskType || 'Assignment',
-              estimatedMinutes: t.estimatedMinutes || 30,
-              subtasks: t.subtasks || []
-            }));
-          } catch (e) {
-            initialTasks = DEFAULT_SAMPLE_TASKS();
-          }
-        } else {
-          initialTasks = DEFAULT_SAMPLE_TASKS();
+        const legacyData = localStorage.getItem(BASE_STORAGE_KEY);
+        if (legacyData) {
+          data = legacyData;
+          localStorage.setItem(key, legacyData);
         }
+      }
+
+      if (!data) {
+        const user = AuthService.getCurrentUser();
+        const initialTasks = DEFAULT_SAMPLE_TASKS(user ? user.name : 'Student');
         this.saveTasks(initialTasks);
         return initialTasks;
       }
@@ -178,7 +183,8 @@ export class TaskRepository {
 
   static saveTasks(tasks) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+      const key = getTaskStorageKey();
+      localStorage.setItem(key, JSON.stringify(tasks));
       return true;
     } catch (err) {
       console.error('Error saving tasks to localStorage:', err);
@@ -270,11 +276,12 @@ export class TaskRepository {
     this.saveTasks(tasks);
   }
 
-  // --- Study Streak Tracking (Phase 4) ---
+  // --- Study Streak Tracking ---
 
   static getStreakData() {
     try {
-      const data = localStorage.getItem(STREAK_KEY);
+      const key = getStreakStorageKey();
+      const data = localStorage.getItem(key);
       if (!data) return { currentStreak: 3, lastCompletedDate: null };
       return JSON.parse(data);
     } catch (e) {
@@ -287,7 +294,7 @@ export class TaskRepository {
     const data = this.getStreakData();
 
     if (data.lastCompletedDate === today) {
-      return; // Already counted today
+      return;
     }
 
     const yesterday = new Date();
@@ -304,18 +311,21 @@ export class TaskRepository {
     }
 
     const updated = { currentStreak: newStreak, lastCompletedDate: today };
-    localStorage.setItem(STREAK_KEY, JSON.stringify(updated));
+    const key = getStreakStorageKey();
+    localStorage.setItem(key, JSON.stringify(updated));
     return updated;
   }
 
-  // --- JSON Export and Import (Phase 5) ---
+  // --- JSON Export and Import ---
 
   static exportAsJSON() {
+    const user = AuthService.getCurrentUser();
     const tasks = this.getTasks();
     const streak = this.getStreakData();
     const exportData = {
-      version: '2.0',
+      version: '2.1',
       exportedAt: new Date().toISOString(),
+      user: user ? { name: user.name, email: user.email, major: user.major } : null,
       tasks,
       streak
     };
@@ -329,7 +339,6 @@ export class TaskRepository {
         throw new Error('Invalid JSON format: missing tasks array');
       }
 
-      // Merge or replace tasks with ID sanitation
       const validTasks = parsed.tasks.filter(t => t && t.title && t.dueDate);
       if (validTasks.length === 0) {
         throw new Error('No valid tasks found in imported file.');
@@ -337,7 +346,8 @@ export class TaskRepository {
 
       this.saveTasks(validTasks);
       if (parsed.streak) {
-        localStorage.setItem(STREAK_KEY, JSON.stringify(parsed.streak));
+        const streakKey = getStreakStorageKey();
+        localStorage.setItem(streakKey, JSON.stringify(parsed.streak));
       }
       return validTasks;
     } catch (err) {
@@ -346,7 +356,7 @@ export class TaskRepository {
     }
   }
 
-  // --- Calendar & iCal Export / Google Calendar (Phase 6) ---
+  // --- Calendar & iCal Export / Google Calendar ---
 
   static generateIcsCalendar(tasks) {
     let ics = [

@@ -1746,3 +1746,215 @@ kbd {
   .calendar-weekdays-row { font-size: 0.7rem; }
   .pomodoro-floating-widget { right: 1rem; left: 1rem; width: auto; bottom: 5.5rem; }
 }
+
+/* --------------------------------------------------------------------------
+   15. Authentication & User Profile Dropdown Styles
+   -------------------------------------------------------------------------- */
+.user-auth-widget {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-sm {
+  padding: 0.4rem 0.85rem !important;
+  font-size: 0.82rem !important;
+  min-height: 36px !important;
+}
+
+/* Avatar Button */
+.user-avatar-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, #B07D62 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 6px rgba(139, 90, 43, 0.25);
+  transition: transform var(--transition-spring), box-shadow var(--transition-fast);
+  border: 2px solid var(--border-light);
+}
+
+.user-avatar-btn:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(139, 90, 43, 0.35);
+  border-color: var(--primary);
+}
+
+/* Profile Dropdown Menu */
+.user-dropdown-card {
+  position: absolute;
+  top: calc(100% + 0.65rem);
+  right: 0;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-modal);
+  width: 260px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  animation: slideUpFade 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.user-dropdown-header {
+  padding: 1rem;
+  background-color: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.dropdown-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary) 0%, #B07D62 100%);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.dropdown-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dropdown-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-email {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-dropdown-actions {
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dropdown-item-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-item-btn:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+.dropdown-item-btn.text-danger:hover {
+  background-color: var(--priority-high-bg);
+  color: #B83A24;
+}
+
+/* Auth Modal Tabs */
+.auth-tabs-bar {
+  display: flex;
+  border-bottom: 1px solid var(--border-light);
+  background-color: var(--bg-subtle);
+}
+
+.auth-tab-btn {
+  flex: 1;
+  padding: 0.85rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-bottom: 3px solid transparent;
+  transition: all var(--transition-fast);
+  text-align: center;
+}
+
+.auth-tab-btn:hover {
+  color: var(--text-main);
+}
+
+.auth-tab-btn.active {
+  color: var(--primary-text);
+  border-bottom-color: var(--primary);
+  background-color: var(--bg-surface);
+  font-weight: 700;
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.btn-toggle-password {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-muted);
+  padding: 0.25rem;
+  user-select: none;
+}
+
+.btn-toggle-password:hover {
+  color: var(--text-main);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1rem 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.auth-divider span {
+  padding: 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+

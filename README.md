@@ -65,6 +65,13 @@ An all-in-one, distraction-free, and responsive web application engineered for s
     - Export all tasks to `.ics` format for Apple Calendar, Outlook, and Google Calendar.
 35. **🤖 AI Syllabus Helper**: Paste syllabus text or course announcements to automatically parse course codes, dates, and exam/assignment titles with 1-click bulk import.
 
+### Phase 7: Authentication & Multi-User Accounts
+36. **🔐 User Registration & Login**: Full Name, Email, Password, and Field of Study.
+37. **🛡️ Client-Side Security**: Web Crypto SHA-256 password hashing; passwords never stored in plain text.
+38. **👤 User Profile & Initials Avatar**: Dropdown menu in header with student information.
+39. **🗂️ Per-User Data Isolation**: Each student user has their own isolated workspace, tasks, and streaks.
+40. **⚡ 1-Click Demo Login**: Built-in demo student profile (Maya Lin) to explore all features instantly.
+
 ---
 
 ## 🛠️ Tech Stack & Architecture

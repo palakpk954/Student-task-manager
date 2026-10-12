@@ -26,6 +26,10 @@ export class AppState {
 
   init() {
     this.tasks = TaskRepository.getTasks();
+    window.addEventListener('app:auth-changed', () => {
+      this.tasks = TaskRepository.getTasks();
+      this.notify();
+    });
     this.notify();
   }
 
