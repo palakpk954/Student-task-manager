@@ -2346,5 +2346,610 @@ body[data-active-view="welcome"] #btn-shortcuts {
   }
 }
 
+/* --------------------------------------------------------------------------
+   17. Taskon Mascot Guide & Interactive Assistant (Blue & Mint)
+   -------------------------------------------------------------------------- */
+.header-taskon-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.btn-header-taskon {
+  border: 1px solid rgba(15, 252, 190, 0.4) !important;
+  background-color: var(--accent-mint-bg) !important;
+}
+
+.btn-header-taskon:hover {
+  border-color: var(--accent-mint) !important;
+  box-shadow: 0 0 10px rgba(15, 252, 190, 0.45) !important;
+}
+
+/* Floating Mascot Trigger Button */
+.taskon-mascot-trigger {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 85;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+  animation: floatMascot 4s ease-in-out infinite;
+}
+
+@keyframes floatMascot {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.taskon-mascot-avatar-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: relative;
+  background-color: #FFFFFF;
+  border: 2.5px solid var(--accent-mint);
+  box-shadow: 0 8px 24px rgba(16, 110, 190, 0.28), 0 0 16px rgba(15, 252, 190, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+:root.dark-theme .taskon-mascot-avatar-box {
+  background-color: #101C27;
+  border-color: var(--accent-mint);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(15, 252, 190, 0.35);
+}
+
+.taskon-mascot-trigger:hover .taskon-mascot-avatar-box {
+  transform: scale(1.08);
+  box-shadow: 0 12px 28px rgba(16, 110, 190, 0.38), 0 0 24px rgba(15, 252, 190, 0.65);
+}
+
+.taskon-avatar-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.taskon-pulse-ring {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-mint);
+  opacity: 0.8;
+  animation: pulseMascot 2.5s cubic-bezier(0.25, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseMascot {
+  0% { transform: scale(0.96); opacity: 0.8; }
+  70% { transform: scale(1.22); opacity: 0; }
+  100% { transform: scale(1.22); opacity: 0; }
+}
+
+/* Mascot Speech Bubble Hint */
+.taskon-bubble-hint {
+  background-color: var(--bg-surface);
+  background-image: url('../assets/paper_texture.jpg');
+  background-size: 260px 260px;
+  background-blend-mode: soft-light;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.85rem;
+  box-shadow: var(--shadow-paper-crease);
+  display: flex;
+  flex-direction: column;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  white-space: nowrap;
+}
+
+:root.dark-theme .taskon-bubble-hint {
+  background-blend-mode: overlay;
+}
+
+.taskon-bubble-hint.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(10px);
+}
+
+.taskon-hint-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.taskon-hint-sub {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+/* Taskon Modal Panel */
+.taskon-panel {
+  max-width: 660px !important;
+  width: 92% !important;
+  background-color: var(--bg-surface) !important;
+  background-image: url('../assets/paper_texture.jpg') !important;
+  background-size: 400px 400px !important;
+  background-blend-mode: soft-light !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-modal), 0 0 32px rgba(15, 252, 190, 0.15) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+:root.dark-theme .taskon-panel {
+  background-blend-mode: overlay !important;
+}
+
+.taskon-panel-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(16, 110, 190, 0.05) 0%, rgba(15, 252, 190, 0.06) 100%);
+}
+
+.taskon-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.taskon-header-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-mint);
+  object-fit: cover;
+  box-shadow: 0 2px 10px rgba(15, 252, 190, 0.35);
+}
+
+.taskon-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.taskon-panel-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.taskon-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-mint-bg);
+  color: #058A67;
+  border: 1px solid rgba(15, 252, 190, 0.4);
+}
+
+:root.dark-theme .taskon-badge {
+  color: var(--accent-mint);
+}
+
+.taskon-header-status {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin: 0.15rem 0 0;
+}
+
+.taskon-panel-body {
+  padding: 1.35rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+/* Intro Card */
+.taskon-intro-card {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.taskon-intro-heading {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 0.25rem;
+}
+
+.taskon-intro-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin: 0;
+}
+
+.btn-taskon-tour {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--primary) 0%, #0c5696 100%);
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 3px 12px rgba(16, 110, 190, 0.28), 0 0 0 1px rgba(15, 252, 190, 0.3);
+  transition: all var(--transition-fast);
+}
+
+.btn-taskon-tour:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(16, 110, 190, 0.38), 0 0 12px rgba(15, 252, 190, 0.5);
+}
+
+/* Suggestions Section */
+.taskon-suggestions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.taskon-section-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.taskon-chips-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.taskon-query-chip {
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  text-align: left;
+}
+
+.taskon-query-chip:hover {
+  border-color: var(--accent-mint);
+  color: var(--primary);
+  background-color: var(--accent-mint-bg);
+  transform: translateY(-1px);
+}
+
+/* Chat Container */
+.taskon-chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+
+.taskon-chat-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-height: 230px;
+  overflow-y: auto;
+  padding-right: 0.35rem;
+}
+
+.taskon-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.taskon-message.message-user {
+  justify-content: flex-end;
+}
+
+.taskon-msg-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1.5px solid var(--accent-mint);
+}
+
+.taskon-msg-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.taskon-msg-content {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-main);
+  max-width: 85%;
+  box-shadow: 0 1px 3px rgba(11, 30, 46, 0.05);
+}
+
+.taskon-msg-content p {
+  margin: 0;
+}
+
+.taskon-msg-content.user-bubble {
+  background: linear-gradient(135deg, var(--primary) 0%, #0c5696 100%);
+  color: #FFFFFF;
+  border-color: var(--primary);
+}
+
+.taskon-msg-actions {
+  margin-top: 0.65rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-taskon-action-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent-mint-bg);
+  border: 1px solid rgba(15, 252, 190, 0.45);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #058A67;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+:root.dark-theme .btn-taskon-action-trigger {
+  color: var(--accent-mint);
+}
+
+.btn-taskon-action-trigger:hover {
+  background-color: var(--accent-mint);
+  color: #0B1E2E;
+  transform: translateY(-1px);
+}
+
+/* Input Form */
+.taskon-input-form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.taskon-input-field {
+  flex: 1;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.9rem;
+  font-size: 0.86rem;
+  color: var(--text-main);
+  outline: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.taskon-input-field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(16, 110, 190, 0.2);
+}
+
+.btn-taskon-send {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.btn-taskon-send:hover {
+  background-color: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+/* Tour Overlay & Highlights */
+.taskon-tour-highlight {
+  position: relative !important;
+  z-index: 100 !important;
+  outline: 3px solid var(--accent-mint) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 24px rgba(15, 252, 190, 0.65) !important;
+  animation: pulseTour 2s infinite ease-in-out !important;
+}
+
+@keyframes pulseTour {
+  0%, 100% { outline-color: var(--accent-mint); }
+  50% { outline-color: #106EBE; }
+}
+
+.taskon-tour-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(9, 17, 26, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 95;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 2rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.taskon-tour-card {
+  background-color: var(--bg-surface);
+  background-image: url('../assets/paper_texture.jpg');
+  background-size: 350px 350px;
+  background-blend-mode: soft-light;
+  border: 2px solid var(--accent-mint);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35), 0 0 30px rgba(15, 252, 190, 0.3);
+  padding: 1.5rem 1.6rem;
+  max-width: 520px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+:root.dark-theme .taskon-tour-card {
+  background-blend-mode: overlay;
+}
+
+.taskon-tour-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.taskon-tour-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-mint);
+  object-fit: cover;
+}
+
+.taskon-tour-step-pill {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+  background-color: var(--accent-mint-bg);
+  color: #058A67;
+  border: 1px solid rgba(15, 252, 190, 0.35);
+}
+
+:root.dark-theme .taskon-tour-step-pill {
+  color: var(--accent-mint);
+}
+
+.taskon-tour-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.taskon-tour-text {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.taskon-tour-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.taskon-tour-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-tour-primary {
+  padding: 0.45rem 1.1rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--primary);
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all var(--transition-fast);
+}
+
+.btn-tour-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-tour-secondary {
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.btn-tour-secondary:hover {
+  color: var(--text-main);
+  border-color: var(--border-focus);
+}
+
+.btn-tour-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .taskon-mascot-trigger {
+    bottom: 5.5rem;
+    right: 1.25rem;
+  }
+  .taskon-bubble-hint {
+    display: none;
+  }
+  .taskon-intro-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+
 
 
