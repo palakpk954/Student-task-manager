@@ -14,9 +14,12 @@ export class UIManager {
 
     // View Containers
     this.viewWelcomeEl = document.getElementById('view-welcome');
+    this.appWorkspaceContainer = document.getElementById('app-workspace-container');
     this.viewListEl = document.getElementById('view-list');
     this.viewCalendarEl = document.getElementById('view-calendar');
     this.viewSummaryEl = document.getElementById('view-summary');
+    this.btnWelcomeStart = document.getElementById('btn-welcome-start');
+    this.btnWelcomeAuth = document.getElementById('btn-welcome-auth');
 
     // List DOM Elements
     this.taskListEl = document.getElementById('task-list');
@@ -280,16 +283,11 @@ export class UIManager {
       btn.classList.toggle('active', btn.getAttribute('data-view-target') === this.state.activeView);
     });
 
+    document.body.setAttribute('data-active-view', this.state.activeView);
     const isWelcome = this.state.activeView === 'welcome';
-    const sidebar = document.getElementById('app-sidebar');
-    const metricsSection = document.querySelector('.metrics-section');
-    const mainWrapper = document.getElementById('main-content');
-
-    if (sidebar) sidebar.style.display = isWelcome ? 'none' : '';
-    if (metricsSection) metricsSection.style.display = isWelcome ? 'none' : '';
-    if (mainWrapper) mainWrapper.classList.toggle('welcome-mode', isWelcome);
 
     if (this.viewWelcomeEl) this.viewWelcomeEl.classList.toggle('hidden', !isWelcome);
+    if (this.appWorkspaceContainer) this.appWorkspaceContainer.classList.toggle('hidden', isWelcome);
     if (this.viewListEl) this.viewListEl.classList.toggle('hidden', this.state.activeView !== 'list');
     if (this.viewCalendarEl) this.viewCalendarEl.classList.toggle('hidden', this.state.activeView !== 'calendar');
     if (this.viewSummaryEl) this.viewSummaryEl.classList.toggle('hidden', this.state.activeView !== 'summary');
@@ -1156,7 +1154,7 @@ export class UIManager {
       this.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
     }
 
-    // View Navigation Buttons (List, Calendar, Summary)
+    // View Navigation Buttons (List, Calendar, Summary, Welcome)
     document.querySelectorAll('[data-view-target]').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('[data-view-target]').forEach(b => b.classList.remove('active'));
@@ -1165,6 +1163,13 @@ export class UIManager {
         this.state.setView(view);
       });
     });
+
+    if (this.btnWelcomeStart) {
+      this.btnWelcomeStart.addEventListener('click', () => this.state.setView('list'));
+    }
+    if (this.btnWelcomeAuth) {
+      this.btnWelcomeAuth.addEventListener('click', () => this.openAuthModal('login'));
+    }
 
     // Calendar month navigation
     const prevMonthBtn = document.getElementById('btn-prev-month');
