@@ -1,7 +1,7 @@
 {
-  "name": "Student Task Manager",
-  "short_name": "TaskMaster",
-  "description": "Fast, distraction-free academic task manager with calendar, Pomodoro timer, and syllabus parser.",
+  "name": "STask",
+  "short_name": "STask",
+  "description": "Minimal, distraction-free academic task manager with calendar, focus timer, and syllabus parser.",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#FAF7F2",

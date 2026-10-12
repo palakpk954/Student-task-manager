@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Task Manager — Academic Tracker & Calendar</title>
-  <meta name="description" content="All-in-one student task manager with interactive calendar, Pomodoro timer, AI syllabus parser, study streak tracker, and local persistence.">
+  <title>STask — Minimal Academic Task Manager</title>
+  <meta name="description" content="A minimal, distraction-free academic task manager with calendar, focus timer, and syllabus parser.">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#8B5A2B">
   <link rel="stylesheet" href="css/styles.css">
@@ -15,51 +15,58 @@
   <!-- Top Navigation Header -->
   <header class="app-header" role="banner">
     <div class="header-container">
-      <div class="brand">
+      <div class="brand" data-view-target="welcome" style="cursor: pointer;">
         <div class="brand-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="9 11 12 14 22 4"></polyline>
             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
           </svg>
         </div>
-        <h1 class="brand-title">Student Task Manager</h1>
+        <h1 class="brand-title">STask</h1>
       </div>
 
-      <!-- Navigation Tabs (List, Calendar, Weekly Summary) -->
+      <!-- Navigation Tabs (Welcome, Tasks, Calendar, Analytics) -->
       <nav class="view-tabs-nav" aria-label="Views">
-        <button type="button" class="view-tab-btn active" data-view-target="list">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <button type="button" class="view-tab-btn active" data-view-target="welcome">
+          <span>Welcome</span>
+        </button>
+        <button type="button" class="view-tab-btn" data-view-target="list">
           <span>Tasks</span>
         </button>
         <button type="button" class="view-tab-btn" data-view-target="calendar">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
           <span>Calendar</span>
         </button>
         <button type="button" class="view-tab-btn" data-view-target="summary">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
           <span>Analytics</span>
         </button>
       </nav>
 
       <!-- Header Tools & Controls -->
       <div class="header-controls">
-        <!-- Study Streak Counter (Phase 4) -->
-        <div class="streak-pill" title="Study streak (completing tasks)">
-          <span class="streak-icon">🔥</span>
+        <!-- Study Streak Counter -->
+        <div class="streak-pill" title="Study streak">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+          </svg>
           <span id="streak-count">3 Day Streak</span>
         </div>
 
-        <!-- Notification Bell (Phase 6) -->
+        <!-- Notification Bell -->
         <button type="button" class="btn-header-tool" id="btn-enable-notifications" title="Due Today Alerts">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
         </button>
 
-        <!-- AI Syllabus Helper (Phase 6) -->
-        <button type="button" class="btn-header-tool" data-action="open-syllabus-helper" title="AI Syllabus Parser">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"></path><path d="M16 11v1a4 4 0 0 1-8 0v-1"></path><path d="M9 16h6"></path><path d="M12 16v6"></path><path d="M8 22h8"></path></svg>
+        <!-- Focus Timer Toggle -->
+        <button type="button" class="btn-header-tool" id="btn-header-pomodoro" data-action="toggle-pomodoro-widget" title="Focus Timer">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
         </button>
 
-        <!-- Keyboard Shortcuts Help (Phase 3) -->
+        <!-- Syllabus Helper -->
+        <button type="button" class="btn-header-tool" data-action="open-syllabus-helper" title="Syllabus Parser">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        </button>
+
+        <!-- Keyboard Shortcuts Help -->
         <button type="button" class="btn-header-tool" data-action="open-shortcuts-modal" title="Keyboard Shortcuts (?)">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
         </button>
@@ -107,14 +114,14 @@
 
         <!-- Add Task Button -->
         <button type="button" class="btn-primary header-add-btn" data-action="open-add-task" id="btn-add-task-header">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           <span>Add Task</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Metrics & Progress Section (FR-13, Phase 3) -->
+  <!-- Metrics & Progress Section -->
   <section class="metrics-section" aria-label="Task Summary Statistics">
     <div class="metrics-container" role="region" aria-live="polite">
       <div class="metric-card" id="stat-total-container">
@@ -158,7 +165,7 @@
       </div>
     </div>
 
-    <!-- Progress Bar (Phase 3) -->
+    <!-- Progress Bar -->
     <div class="progress-banner-row">
       <div class="progress-banner-header">
         <span id="progress-text">0 of 0 tasks completed (0%)</span>
@@ -174,7 +181,7 @@
   <main class="main-wrapper" id="main-content">
 
     <!-- Desktop Sidebar (Filters & Tools) -->
-    <aside class="sidebar" aria-label="Task Filters">
+    <aside class="sidebar" id="app-sidebar" aria-label="Task Filters">
       <!-- Status Filter -->
       <div class="filter-group">
         <h2 class="filter-group-title">Status</h2>
@@ -202,17 +209,17 @@
         </nav>
       </div>
 
-      <!-- Course / Subject Filter (Phase 3) -->
+      <!-- Course / Subject Filter -->
       <div class="filter-group">
-        <h2 class="filter-group-title">Courses / Subjects</h2>
+        <h2 class="filter-group-title">Courses</h2>
         <nav class="pill-list" id="course-filter-list" aria-label="Filter by Course">
           <!-- Dynamically populated -->
         </nav>
       </div>
 
-      <!-- Data & Calendar Tools (Phases 5 & 6) -->
+      <!-- Data & Calendar Tools -->
       <div class="sidebar-tools-box">
-        <h2 class="filter-group-title">Data & Sync</h2>
+        <h2 class="filter-group-title">Sync & Export</h2>
         <button type="button" class="btn-sidebar-action" id="btn-export-json">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           <span>Export JSON</span>
@@ -226,7 +233,7 @@
 
         <button type="button" class="btn-sidebar-action" id="btn-export-ics">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          <span>Sync to Calendar (.ics)</span>
+          <span>Calendar (.ics)</span>
         </button>
       </div>
     </aside>
@@ -234,94 +241,138 @@
     <!-- Main Content Area -->
     <section class="content-area">
 
-      <!-- Due Soon Filter Strip (Phase 4) -->
-      <div class="due-soon-strip" aria-label="Due Soon Quick Filters">
-        <button type="button" class="chip-btn active" data-filter-due-soon="all">All Dates</button>
-        <button type="button" class="chip-btn" data-filter-due-soon="today">⚡ Due Today</button>
-        <button type="button" class="chip-btn" data-filter-due-soon="tomorrow">📅 Tomorrow</button>
-        <button type="button" class="chip-btn" data-filter-due-soon="week">🗓️ This Week</button>
-      </div>
-
-      <!-- Task Type Filter Pills (Phase 4) -->
-      <div class="due-soon-strip" aria-label="Task Types">
-        <button type="button" class="chip-btn active" data-filter-type="all">All Types</button>
-        <button type="button" class="chip-btn" data-filter-type="Assignment">📝 Assignments</button>
-        <button type="button" class="chip-btn" data-filter-type="Exam">🎯 Exams</button>
-        <button type="button" class="chip-btn" data-filter-type="Reading">📖 Readings</button>
-        <button type="button" class="chip-btn" data-filter-type="Project">🚀 Projects</button>
-        <button type="button" class="chip-btn" data-filter-type="Quiz">⚡ Quizzes</button>
-      </div>
-
-      <!-- Search & Sort Toolbar -->
-      <div class="toolbar-row">
-        <!-- Search Field (FR-12, Phase 3) -->
-        <div class="search-box">
-          <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input
-            type="search"
-            id="search-input"
-            class="search-input"
-            placeholder="Search by title, course, or notes... (Press /)"
-            aria-label="Search tasks"
-          />
+      <!-- VIEW 0: WELCOME SCREEN (1st Page) -->
+      <div id="view-welcome" class="welcome-view-panel">
+        <div class="welcome-hero">
+          <span class="welcome-kicker">Academic Workspace</span>
+          <h2 class="welcome-title">Welcome to STask</h2>
+          <p class="welcome-subtitle">A minimal, distraction-free task manager designed for students. Track assignments, manage course deadlines, and stay focused with clarity.</p>
+          <div class="welcome-actions">
+            <button type="button" class="btn-primary btn-lg" id="btn-welcome-start" data-view-target="list">
+              <span>Open Workspace</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <button type="button" class="btn-secondary btn-lg" id="btn-welcome-auth">
+              <span>Sign In / Register</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Sort Select (FR-11) -->
-        <div class="sort-box">
-          <label for="sort-select" class="sort-label">Sort:</label>
-          <select id="sort-select" class="sort-select" aria-label="Sort tasks">
-            <option value="due-asc">Due Date (Soonest)</option>
-            <option value="due-desc">Due Date (Furthest)</option>
-            <option value="priority">Priority (High to Low)</option>
-            <option value="time-asc">Estimated Time (Shortest)</option>
-            <option value="course">Course Name</option>
-            <option value="created">Recently Added</option>
-          </select>
+        <div class="welcome-features-grid">
+          <div class="welcome-feature-card">
+            <div class="welcome-feature-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            </div>
+            <h3>Quick Capture</h3>
+            <p>Add assignments, exams, and readings in seconds with course tags and priorities.</p>
+          </div>
+
+          <div class="welcome-feature-card">
+            <div class="welcome-feature-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <h3>Interactive Calendar</h3>
+            <p>Visual monthly schedule with deadlines, day-level task breakdown, and calendar sync.</p>
+          </div>
+
+          <div class="welcome-feature-card">
+            <div class="welcome-feature-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <h3>Focus Timer</h3>
+            <p>Built-in Pomodoro timer to power focused study sessions without external apps.</p>
+          </div>
         </div>
       </div>
 
-      <!-- VIEW 1: Task List Feed (Default) -->
-      <div id="view-list">
-        <div id="task-list" class="task-list" role="feed" aria-label="Tasks list">
+      <!-- VIEW 1: Task List Feed -->
+      <div id="view-list" class="hidden">
+        <!-- Due Soon Filter Strip -->
+        <div class="due-soon-strip" aria-label="Due Soon Quick Filters">
+          <button type="button" class="chip-btn active" data-filter-due-soon="all">All Dates</button>
+          <button type="button" class="chip-btn" data-filter-due-soon="today">Due Today</button>
+          <button type="button" class="chip-btn" data-filter-due-soon="tomorrow">Tomorrow</button>
+          <button type="button" class="chip-btn" data-filter-due-soon="week">This Week</button>
+        </div>
+
+        <!-- Task Type Filter Pills -->
+        <div class="due-soon-strip" style="margin-top: 0.5rem;" aria-label="Task Types">
+          <button type="button" class="chip-btn active" data-filter-type="all">All Types</button>
+          <button type="button" class="chip-btn" data-filter-type="Assignment">Assignments</button>
+          <button type="button" class="chip-btn" data-filter-type="Exam">Exams</button>
+          <button type="button" class="chip-btn" data-filter-type="Reading">Readings</button>
+          <button type="button" class="chip-btn" data-filter-type="Project">Projects</button>
+          <button type="button" class="chip-btn" data-filter-type="Quiz">Quizzes</button>
+        </div>
+
+        <!-- Search & Sort Toolbar -->
+        <div class="toolbar-row" style="margin-top: 0.85rem;">
+          <!-- Search Field -->
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="search"
+              id="search-input"
+              class="search-input"
+              placeholder="Search by title, course, or notes... (Press /)"
+              aria-label="Search tasks"
+            />
+          </div>
+
+          <!-- Sort Select -->
+          <div class="sort-box">
+            <label for="sort-select" class="sort-label">Sort:</label>
+            <select id="sort-select" class="sort-select" aria-label="Sort tasks">
+              <option value="due-asc">Due Date (Soonest)</option>
+              <option value="due-desc">Due Date (Furthest)</option>
+              <option value="priority">Priority (High to Low)</option>
+              <option value="time-asc">Estimated Time (Shortest)</option>
+              <option value="course">Course Name</option>
+              <option value="created">Recently Added</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="task-list" class="task-list" style="margin-top: 1rem;" role="feed" aria-label="Tasks list">
           <!-- Dynamically populated cards -->
         </div>
 
         <!-- Initial Empty State -->
         <div id="empty-state" class="empty-state-box hidden">
           <div class="empty-state-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
           </div>
-          <h2 class="empty-state-title">No tasks on your plate!</h2>
+          <h2 class="empty-state-title">No tasks on your plate</h2>
           <p class="empty-state-desc">Capture upcoming homework, exam dates, or project milestones in under 15 seconds so you never miss a deadline.</p>
           <button type="button" class="btn-primary" data-action="open-add-task">
-            <span>Create Your First Task</span>
+            <span>Create Task</span>
           </button>
         </div>
 
         <!-- Filter No-Results State -->
         <div id="no-results-state" class="empty-state-box hidden">
           <div class="empty-state-icon" aria-hidden="true" style="background-color: var(--bg-subtle); color: var(--text-secondary);">
-            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
           </div>
           <h2 class="empty-state-title">No matching tasks found</h2>
           <p class="empty-state-desc">Try clearing your filters or search keywords to view all your assignments.</p>
           <button type="button" class="btn-secondary" data-action="clear-filters">
-            <span>Reset All Filters</span>
+            <span>Reset Filters</span>
           </button>
         </div>
       </div>
 
-      <!-- VIEW 2: Interactive Month Calendar (Phase 6) -->
+      <!-- VIEW 2: Interactive Month Calendar -->
       <div id="view-calendar" class="calendar-view-panel hidden">
         <div class="calendar-header-bar">
           <h2 class="calendar-month-title" id="calendar-month-title">October 2026</h2>
           <div class="calendar-nav-controls">
-            <button type="button" class="btn-cal-nav" id="btn-prev-month">◀ Prev</button>
+            <button type="button" class="btn-cal-nav" id="btn-prev-month">Prev</button>
             <button type="button" class="btn-cal-nav" id="btn-today-month">Today</button>
-            <button type="button" class="btn-cal-nav" id="btn-next-month">Next ▶</button>
+            <button type="button" class="btn-cal-nav" id="btn-next-month">Next</button>
           </div>
         </div>
 
@@ -334,7 +385,7 @@
         </div>
       </div>
 
-      <!-- VIEW 3: Weekly Summary & Analytics (Phase 4) -->
+      <!-- VIEW 3: Weekly Summary & Analytics -->
       <div id="view-summary" class="summary-view-panel hidden">
         <div class="summary-card">
           <h2 class="summary-card-title">Weekly Coursework Completion</h2>
@@ -372,11 +423,13 @@
     </section>
   </main>
 
-  <!-- Floating Pomodoro Timer Widget (Phase 6) -->
+  <!-- Floating Pomodoro Timer Widget -->
   <aside id="pomodoro-widget" class="pomodoro-floating-widget hidden" aria-label="Pomodoro Study Timer">
     <div class="pomodoro-widget-header">
-      <span class="pomodoro-title">⏱️ Study Pomodoro</span>
-      <button type="button" class="btn-close-modal" id="btn-pomodoro-close" aria-label="Close Pomodoro">✕</button>
+      <span class="pomodoro-title">Focus Timer</span>
+      <button type="button" class="btn-close-modal" id="btn-pomodoro-close" aria-label="Close Pomodoro">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
     </div>
 
     <div class="pomodoro-modes">
@@ -396,15 +449,17 @@
 
   <!-- Mobile Floating Action Button (FAB) -->
   <button type="button" class="mobile-fab" data-action="open-add-task" aria-label="Add new task">
-    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
   </button>
 
-  <!-- Add / Edit Task Modal (Phases 1-4) -->
+  <!-- Add / Edit Task Modal -->
   <div class="modal-backdrop" id="task-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
     <div class="modal-panel" role="document">
       <div class="modal-header">
         <h2 class="modal-title" id="modal-title">Add New Task</h2>
-        <button type="button" class="btn-close-modal" data-action="close-modal" aria-label="Close dialog">✕</button>
+        <button type="button" class="btn-close-modal" data-action="close-modal" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
 
       <form id="task-form" novalidate>
@@ -421,7 +476,7 @@
               type="text"
               id="task-title-input"
               class="form-input"
-              placeholder="e.g., Read Physics Chapter 5 or Complete Calculus Set"
+              placeholder="e.g. Read Physics Chapter 5 or Complete Calculus Set"
               maxlength="100"
               required
             />
@@ -431,8 +486,8 @@
           <!-- Course, Due Date, & Priority Row -->
           <div class="form-row-3">
             <div class="form-group">
-              <label for="task-course-input" class="form-label">Course / Tag</label>
-              <input type="text" id="task-course-input" class="form-input" placeholder="e.g. CS101">
+              <label for="task-course-input" class="form-label">Course</label>
+              <input type="text" id="task-course-input" class="form-input" placeholder="e.g. CS 301">
             </div>
 
             <div class="form-group">
@@ -450,36 +505,37 @@
             </div>
           </div>
 
-          <!-- Task Type & Estimated Time Row (Phase 4) -->
+          <!-- Task Type & Estimated Time Row -->
           <div class="form-row">
             <div class="form-group">
               <label for="task-type-select" class="form-label">Task Type</label>
               <select id="task-type-select" class="form-select">
-                <option value="Assignment" selected>📝 Assignment</option>
-                <option value="Exam">🎯 Exam / Test</option>
-                <option value="Reading">📖 Reading</option>
-                <option value="Project">🚀 Project</option>
-                <option value="Quiz">⚡ Quiz</option>
+                <option value="Assignment" selected>Assignment</option>
+                <option value="Exam">Exam / Test</option>
+                <option value="Reading">Reading</option>
+                <option value="Project">Project</option>
+                <option value="Quiz">Quiz</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="task-est-time-input" class="form-label">Est. Time (Minutes)</label>
+              <label for="task-est-time-input" class="form-label">Estimated Time (Minutes)</label>
               <input type="number" id="task-est-time-input" class="form-input" min="5" max="600" step="5" value="45">
             </div>
           </div>
 
           <!-- Warning for past dates -->
           <div id="past-date-warning" class="form-warning hidden">
-            <span>⚠️ Notice: This due date is already in the past.</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span>Notice: This due date is already in the past.</span>
           </div>
 
-          <!-- Subtasks / Checklist Builder (Phase 4) -->
+          <!-- Subtasks / Checklist Builder -->
           <div class="form-group">
-            <label class="form-label">Subtasks / Checklist (Optional)</label>
+            <label class="form-label">Checklist Steps (Optional)</label>
             <div class="modal-subtasks-row">
               <input type="text" id="modal-new-subtask-input" class="form-input" placeholder="Add checklist step...">
-              <button type="button" class="btn-secondary" id="btn-add-modal-subtask">+ Add</button>
+              <button type="button" class="btn-secondary" id="btn-add-modal-subtask">Add Step</button>
             </div>
             <div id="modal-subtasks-container" class="modal-subtasks-builder" style="margin-top: 0.5rem;"></div>
           </div>
@@ -502,19 +558,21 @@
     </div>
   </div>
 
-  <!-- Delete Confirmation Modal (FR-4) -->
+  <!-- Delete Confirmation Modal -->
   <div class="modal-backdrop" id="delete-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-panel" style="max-width: 440px;" role="document">
       <div class="modal-header">
         <h2 class="modal-title">Delete Task</h2>
-        <button type="button" class="btn-close-modal" data-action="close-modal">✕</button>
+        <button type="button" class="btn-close-modal" data-action="close-modal">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
       <div class="modal-body">
         <p style="color: var(--text-secondary); line-height: 1.5;">
-          Are you sure you want to permanently delete <strong id="delete-task-title" style="color: var(--text-main);"></strong>?
+          Are you sure you want to delete <strong id="delete-task-title" style="color: var(--text-main);"></strong>?
         </p>
         <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">
-          You will have a 5-second window to undo this action.
+          You can undo this action within 5 seconds.
         </p>
       </div>
       <div class="modal-footer">
@@ -524,25 +582,27 @@
     </div>
   </div>
 
-  <!-- AI Syllabus Helper Modal (Phase 6) -->
+  <!-- Syllabus Helper Modal -->
   <div class="modal-backdrop" id="syllabus-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-panel" style="max-width: 620px;" role="document">
       <div class="modal-header">
-        <h2 class="modal-title">🤖 AI Syllabus & Text Helper</h2>
-        <button type="button" class="btn-close-modal" data-action="close-modal">✕</button>
+        <h2 class="modal-title">Syllabus & Coursework Parser</h2>
+        <button type="button" class="btn-close-modal" data-action="close-modal">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
       <div class="modal-body">
         <p style="font-size: 0.9rem; color: var(--text-secondary);">
-          Paste your syllabus schedule, lecture slides text, or professor announcement below. The parser extracts course names, deadlines, exams, and readings automatically.
+          Paste course syllabus schedule, assignment notes, or announcement text below. STask detects course codes, dates, and assignments automatically.
         </p>
         <textarea id="syllabus-text-input" class="form-textarea" rows="5" placeholder="Example:
 CS 301 - Operating Systems
 Midterm Exam: Due Oct 24
-Homework 4 Latency Benchmark: Due Nov 2nd
+Homework 4 Latency Benchmark: Due Nov 2
 Reading Chapter 9: Nov 10"></textarea>
 
         <button type="button" class="btn-secondary" id="btn-parse-syllabus" style="align-self: flex-start;">
-          ⚡ Extract Tasks
+          Extract Tasks
         </button>
 
         <div id="syllabus-preview-container"></div>
@@ -554,12 +614,14 @@ Reading Chapter 9: Nov 10"></textarea>
     </div>
   </div>
 
-  <!-- Keyboard Shortcuts Cheat Sheet Modal (Phase 3) -->
+  <!-- Keyboard Shortcuts Cheat Sheet Modal -->
   <div class="modal-backdrop" id="shortcuts-modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal-panel" style="max-width: 440px;" role="document">
       <div class="modal-header">
-        <h2 class="modal-title">⌨️ Keyboard Shortcuts</h2>
-        <button type="button" class="btn-close-modal" data-action="close-modal">✕</button>
+        <h2 class="modal-title">Keyboard Shortcuts</h2>
+        <button type="button" class="btn-close-modal" data-action="close-modal">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
       <div class="modal-body">
         <div class="shortcut-row">
@@ -584,17 +646,19 @@ Reading Chapter 9: Nov 10"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn-primary" data-action="close-modal">Got it</button>
+        <button type="button" class="btn-primary" data-action="close-modal">Close</button>
       </div>
     </div>
   </div>
 
   <!-- Authentication Modal (Sign In & Sign Up) -->
   <div class="modal-backdrop" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title" aria-hidden="true">
-    <div class="modal-panel" style="max-width: 480px;" role="document">
+    <div class="modal-panel" style="max-width: 460px;" role="document">
       <div class="modal-header">
-        <h2 class="modal-title" id="auth-modal-title">Student Portal</h2>
-        <button type="button" class="btn-close-modal" data-action="close-modal" aria-label="Close dialog">✕</button>
+        <h2 class="modal-title" id="auth-modal-title">Student Account</h2>
+        <button type="button" class="btn-close-modal" data-action="close-modal" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
       </div>
 
       <!-- Auth Tabs: Sign In / Create Account -->
@@ -614,14 +678,16 @@ Reading Chapter 9: Nov 10"></textarea>
           <div class="form-group">
             <label for="login-password" class="form-label label-required">Password</label>
             <div class="password-input-wrapper">
-              <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
-              <button type="button" class="btn-toggle-password" data-target="login-password" title="Show/Hide Password">👁️</button>
+              <input type="password" id="login-password" class="form-input" placeholder="Enter password" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-password" data-target="login-password" title="Toggle password visibility">
+                <span class="password-toggle-text">Show</span>
+              </button>
             </div>
             <div id="login-error" class="form-error" role="alert"></div>
           </div>
 
           <button type="submit" class="btn-primary" style="width: 100%; margin-top: 0.5rem;" id="btn-submit-login">
-            Sign In to My Tasks
+            Sign In to STask
           </button>
 
           <div class="auth-divider">
@@ -629,7 +695,7 @@ Reading Chapter 9: Nov 10"></textarea>
           </div>
 
           <button type="button" class="btn-secondary" style="width: 100%; font-size: 0.88rem;" id="btn-demo-login">
-            ⚡ Quick Demo Login (Maya Lin)
+            Quick Demo Login (Maya Lin)
           </button>
         </form>
 
@@ -647,14 +713,16 @@ Reading Chapter 9: Nov 10"></textarea>
 
           <div class="form-group">
             <label for="signup-major" class="form-label">Major / Field of Study</label>
-            <input type="text" id="signup-major" class="form-input" placeholder="e.g. Mechanical Engineering, Biology">
+            <input type="text" id="signup-major" class="form-input" placeholder="e.g. Computer Science, Biology">
           </div>
 
           <div class="form-group">
             <label for="signup-password" class="form-label label-required">Password (min 6 characters)</label>
             <div class="password-input-wrapper">
               <input type="password" id="signup-password" class="form-input" placeholder="Create a secure password" minlength="6" required autocomplete="new-password">
-              <button type="button" class="btn-toggle-password" data-target="signup-password" title="Show/Hide Password">👁️</button>
+              <button type="button" class="btn-toggle-password" data-target="signup-password" title="Toggle password visibility">
+                <span class="password-toggle-text">Show</span>
+              </button>
             </div>
             <div id="signup-error" class="form-error" role="alert"></div>
           </div>
@@ -666,16 +734,18 @@ Reading Chapter 9: Nov 10"></textarea>
       </div>
 
       <div class="modal-footer" style="justify-content: center; font-size: 0.82rem; color: var(--text-muted);">
-        <span>🔒 Secure client-side credentials & isolated local tasks</span>
+        <span>Client-side encrypted credentials & isolated local tasks</span>
       </div>
     </div>
   </div>
 
-  <!-- Floating Toast Notification System (FR-15: 5s Undo) -->
+  <!-- Floating Toast Notification System -->
   <aside class="toast-container" id="toast" role="status" aria-live="polite" aria-hidden="true">
     <span class="toast-message" id="toast-message">Task updated</span>
     <button type="button" class="toast-action-btn" id="toast-action-btn">Undo</button>
-    <button type="button" class="toast-close-btn" id="toast-close-btn" aria-label="Dismiss message">✕</button>
+    <button type="button" class="toast-close-btn" id="toast-close-btn" aria-label="Dismiss message">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
   </aside>
 
   <!-- JavaScript Entry Point -->

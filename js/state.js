@@ -18,7 +18,7 @@ export class AppState {
       search: ''
     };
     this.sortBy = 'due-asc'; // 'due-asc' | 'due-desc' | 'priority' | 'created' | 'time-asc' | 'course'
-    this.activeView = 'list'; // 'list' | 'calendar' | 'summary'
+    this.activeView = 'welcome'; // 'welcome' | 'list' | 'calendar' | 'summary'
     this.subscribers = [];
     this.undoAction = null;
     this.undoTimer = null;
@@ -304,7 +304,7 @@ export class AppState {
 
     // Set Undo Toast Action
     this.setUndoAction({
-      message: updated.completed ? `Task marked as completed! 🔥` : `Task reopened`,
+      message: updated.completed ? `Task marked as completed` : `Task reopened`,
       execute: () => {
         this.updateTask(id, { completed: previousState });
       }

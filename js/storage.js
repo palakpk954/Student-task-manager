@@ -362,7 +362,7 @@ export class TaskRepository {
     let ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
-      'PRODID:-//Student Task Manager//EN',
+      'PRODID:-//STask//EN',
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH'
     ];

@@ -13,6 +13,7 @@ export class UIManager {
     this.state = state;
 
     // View Containers
+    this.viewWelcomeEl = document.getElementById('view-welcome');
     this.viewListEl = document.getElementById('view-list');
     this.viewCalendarEl = document.getElementById('view-calendar');
     this.viewSummaryEl = document.getElementById('view-summary');
@@ -165,7 +166,7 @@ export class UIManager {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
           notifyBtn.classList.add('active');
-          this.showToast('Browser notifications enabled! 🔔', null, 3000);
+          this.showToast('Browser notifications enabled.', null, 3000);
           this.checkAndSendDueNotifications(true);
         }
       }
@@ -190,7 +191,7 @@ export class UIManager {
         console.warn('Could not trigger notification', e);
       }
     } else if (forced) {
-      this.showToast('All caught up! No incomplete tasks due today 🎉', null, 3000);
+      this.showToast('All caught up. No incomplete tasks due today.', null, 3000);
     }
   }
 
@@ -274,21 +275,28 @@ export class UIManager {
     this.renderHeaderAndMetrics();
     this.renderCourseFilters();
 
-    // Render active view
+    // Update active tab buttons
+    document.querySelectorAll('[data-view-target]').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-view-target') === this.state.activeView);
+    });
+
+    const isWelcome = this.state.activeView === 'welcome';
+    const sidebar = document.getElementById('app-sidebar');
+    const metricsSection = document.querySelector('.metrics-section');
+
+    if (sidebar) sidebar.style.display = isWelcome ? 'none' : '';
+    if (metricsSection) metricsSection.style.display = isWelcome ? 'none' : '';
+
+    if (this.viewWelcomeEl) this.viewWelcomeEl.classList.toggle('hidden', !isWelcome);
+    if (this.viewListEl) this.viewListEl.classList.toggle('hidden', this.state.activeView !== 'list');
+    if (this.viewCalendarEl) this.viewCalendarEl.classList.toggle('hidden', this.state.activeView !== 'calendar');
+    if (this.viewSummaryEl) this.viewSummaryEl.classList.toggle('hidden', this.state.activeView !== 'summary');
+
     if (this.state.activeView === 'list') {
-      this.viewListEl.classList.remove('hidden');
-      this.viewCalendarEl.classList.add('hidden');
-      this.viewSummaryEl.classList.add('hidden');
       this.renderTaskList();
     } else if (this.state.activeView === 'calendar') {
-      this.viewListEl.classList.add('hidden');
-      this.viewCalendarEl.classList.remove('hidden');
-      this.viewSummaryEl.classList.add('hidden');
       this.renderCalendarView();
     } else if (this.state.activeView === 'summary') {
-      this.viewListEl.classList.add('hidden');
-      this.viewCalendarEl.classList.add('hidden');
-      this.viewSummaryEl.classList.remove('hidden');
       this.renderSummaryView();
     }
   }
@@ -448,23 +456,15 @@ export class UIManager {
 
     // Course tag badge
     const courseBadge = task.course
-      ? `<span class="badge badge-course"><span class="badge-icon">🎓</span>${this.escapeHtml(task.course)}</span>`
+      ? `<span class="badge badge-course">${this.escapeHtml(task.course)}</span>`
       : '';
 
-    // Task Type badge
-    const taskTypeIcons = {
-      'Assignment': '📝',
-      'Exam': '🎯',
-      'Reading': '📖',
-      'Project': '🚀',
-      'Quiz': '⚡'
-    };
-    const typeIcon = taskTypeIcons[task.taskType] || '📝';
-    const typeBadge = `<span class="badge badge-type"><span class="badge-icon">${typeIcon}</span>${this.escapeHtml(task.taskType || 'Assignment')}</span>`;
+    // Task Type badge (clean text)
+    const typeBadge = `<span class="badge badge-type">${this.escapeHtml(task.taskType || 'Assignment')}</span>`;
 
     // Estimated time badge
     const timeBadge = task.estimatedMinutes
-      ? `<span class="badge badge-time" title="Estimated time"><span class="badge-icon">⏱️</span>${task.estimatedMinutes}m</span>`
+      ? `<span class="badge badge-time" title="Estimated time">${task.estimatedMinutes} min</span>`
       : '';
 
     // Date badge HTML
@@ -512,7 +512,7 @@ export class UIManager {
     const subtasks = Array.isArray(task.subtasks) ? task.subtasks : [];
     const completedSubtasks = subtasks.filter(st => st.completed).length;
     const subtaskBadge = subtasks.length > 0
-      ? `<span class="badge badge-subtasks">✓ ${completedSubtasks}/${subtasks.length} subtasks</span>`
+      ? `<span class="badge badge-subtasks">${completedSubtasks}/${subtasks.length} steps</span>`
       : '';
 
     // Description & Subtasks container
@@ -759,7 +759,7 @@ export class UIManager {
               this.pomodoroIsRunning = false;
               playPauseBtn.textContent = 'Start';
               this.playChime();
-              this.showToast('Pomodoro interval complete! Take a well-deserved break ☕', null, 5000);
+              this.showToast('Pomodoro interval complete. Take a short break.', null, 5000);
             }
           }, 1000);
         }
@@ -875,7 +875,7 @@ export class UIManager {
         this.state.addTask(task);
       });
       this.closeModal(syllabusModal);
-      this.showToast(`Imported ${parsedTasks.length} tasks from syllabus! 🎉`, null, 4000);
+      this.showToast(`Imported ${parsedTasks.length} tasks from syllabus.`, null, 4000);
       syllabusInput.value = '';
       previewContainer.innerHTML = '';
       importBtn.classList.add('hidden');
@@ -1009,8 +1009,8 @@ export class UIManager {
       const row = document.createElement('div');
       row.className = 'modal-subtask-item';
       row.innerHTML = `
-        <span class="subtask-label">✓ ${this.escapeHtml(st.title)}</span>
-        <button type="button" class="btn-remove-subtask" data-remove-idx="${idx}" title="Remove">✕</button>
+        <span class="subtask-label">${this.escapeHtml(st.title)}</span>
+        <button type="button" class="btn-remove-subtask" data-remove-idx="${idx}" title="Remove">Remove</button>
       `;
       this.modalSubtasksContainer.appendChild(row);
     });
@@ -1435,7 +1435,7 @@ export class UIManager {
         a.download = `student-tasks-backup-${new Date().toISOString().split('T')[0]}.json`;
         a.click();
         URL.revokeObjectURL(url);
-        this.showToast('Tasks exported to JSON successfully! 💾', null, 3000);
+        this.showToast('Tasks exported to JSON successfully.', null, 3000);
       });
     }
 
@@ -1451,7 +1451,7 @@ export class UIManager {
             const imported = TaskRepository.importFromJSON(event.target.result);
             this.state.tasks = imported;
             this.state.notify();
-            this.showToast(`Imported ${imported.length} tasks successfully! 🎉`, null, 4000);
+            this.showToast(`Imported ${imported.length} tasks successfully.`, null, 4000);
           } catch (err) {
             this.showToast('Import failed: ' + err.message, null, 4000);
           }
@@ -1470,10 +1470,10 @@ export class UIManager {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'student-coursework-calendar.ics';
+        a.download = 'stask-coursework.ics';
         a.click();
         URL.revokeObjectURL(url);
-        this.showToast('Calendar (.ics) downloaded! Ready to import to Google/Apple Calendar 📅', null, 4000);
+        this.showToast('Calendar (.ics) downloaded.', null, 4000);
       });
     }
 
@@ -1568,17 +1568,47 @@ export class UIManager {
       btn.addEventListener('click', () => {
         const targetId = btn.getAttribute('data-target');
         const input = document.getElementById(targetId);
+        const textSpan = btn.querySelector('.password-toggle-text');
         if (input) {
           if (input.type === 'password') {
             input.type = 'text';
-            btn.textContent = '🙈';
+            if (textSpan) textSpan.textContent = 'Hide';
           } else {
             input.type = 'password';
-            btn.textContent = '👁️';
+            if (textSpan) textSpan.textContent = 'Show';
           }
         }
       });
     });
+
+    // Welcome view action buttons
+    const welcomeStartBtn = document.getElementById('btn-welcome-start');
+    if (welcomeStartBtn) {
+      welcomeStartBtn.addEventListener('click', () => {
+        this.state.setView('list');
+      });
+    }
+    const welcomeAuthBtn = document.getElementById('btn-welcome-auth');
+    if (welcomeAuthBtn) {
+      welcomeAuthBtn.addEventListener('click', () => {
+        this.openAuthModal('login');
+      });
+    }
+    const brandBtn = document.querySelector('.brand');
+    if (brandBtn) {
+      brandBtn.addEventListener('click', () => {
+        this.state.setView('welcome');
+      });
+    }
+
+    // Pomodoro toggle from header
+    const headerPomodoroBtn = document.getElementById('btn-header-pomodoro');
+    if (headerPomodoroBtn) {
+      headerPomodoroBtn.addEventListener('click', () => {
+        const widget = document.getElementById('pomodoro-widget');
+        if (widget) widget.classList.toggle('hidden');
+      });
+    }
 
     // Login Form Submit
     if (this.loginForm) {
@@ -1591,7 +1621,7 @@ export class UIManager {
         try {
           const user = await AuthService.login({ email, password });
           this.closeModal(this.authModal);
-          this.showToast(`Welcome back, ${user.name}! 🎓`, null, 3500);
+          this.showToast(`Welcome back, ${user.name}.`, null, 3500);
         } catch (err) {
           if (this.loginErrorEl) this.loginErrorEl.textContent = err.message;
         }
@@ -1611,7 +1641,7 @@ export class UIManager {
         try {
           const user = await AuthService.signUp({ name, email, password, major });
           this.closeModal(this.authModal);
-          this.showToast(`Account created! Welcome, ${user.name} 🎉`, null, 3500);
+          this.showToast(`Account created. Welcome, ${user.name}.`, null, 3500);
         } catch (err) {
           if (this.signupErrorEl) this.signupErrorEl.textContent = err.message;
         }
@@ -1624,7 +1654,7 @@ export class UIManager {
         const user = AuthService.loginDemo();
         if (user) {
           this.closeModal(this.authModal);
-          this.showToast(`Logged in as demo student (${user.name})! 🎓`, null, 3500);
+          this.showToast(`Logged in as demo student (${user.name}).`, null, 3500);
         }
       });
     }
