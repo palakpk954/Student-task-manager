@@ -355,6 +355,8 @@ export class TaskonGuide {
     if (!modal) return;
     this.isOpen = true;
     modal.classList.remove('hidden');
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
 
     const input = document.getElementById('taskon-user-input');
@@ -365,7 +367,9 @@ export class TaskonGuide {
     const modal = document.getElementById('taskon-modal');
     if (!modal) return;
     this.isOpen = false;
+    modal.classList.remove('active');
     modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
   }
 
